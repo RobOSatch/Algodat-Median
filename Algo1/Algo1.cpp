@@ -11,7 +11,7 @@
 int main()
 {
 	int n = 1000000;
-	int medianIndex = n / 2 + 1;
+	int medianIndex = n / 2;
 	std::vector<int> arr;
 	for (int i = 0; i < n; i++) {
 		int randInt = rand() % n + 1;
@@ -23,7 +23,11 @@ int main()
 	Timer::stop();
 
 	Timer::start();
-	std::cout << "Median ist " << median::randomizedSelect(arr, 0, arr.size() - 1, medianIndex) << std::endl;
+	std::cout << "Median ist " << median::randomizedSelect(arr, 0, arr.size() - 1, medianIndex + 1) << std::endl;
+	Timer::stop();
+
+	Timer::start();
+	std::cout << "Median ist " << median::torben(arr, n) << std::endl;
 	Timer::stop();
 
 	Timer::start();
