@@ -58,7 +58,7 @@ std::string getReadableString(double duration) {
 		mil = "0" + mil;
 	}
 
-	return hr + ":" + min + ":" + sec + ":" + mil;
+	return min + ":" + sec + ":" + mil;
 }
 
 void Timer::start()

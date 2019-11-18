@@ -5,32 +5,66 @@
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
+#include <time.h>
 
 #include "Timer.h"
 
 int main()
 {
-	int n = 1000000;
+	// Randomize seed
+	srand(time(NULL));
+
+	std::cout << "MEDIAN" << std::endl << std::endl;
+
+	// Generates n random numbers 
+	int n = 10000000;
 	int medianIndex = n / 2;
+
 	std::vector<int> arr;
 	for (int i = 0; i < n; i++) {
 		int randInt = rand() % n + 1;
 		arr.push_back(randInt);
 	}
 
-	Timer::start();
-	std::cout << "Median ist " << median::sortedMedian(arr, medianIndex) << std::endl;
-	Timer::stop();
+	srand(time(NULL));
+	int median;
 
-	Timer::start();
-	std::cout << "Median ist " << median::randomizedSelect(arr, 0, arr.size() - 1, medianIndex + 1) << std::endl;
-	Timer::stop();
+	// Check if the array is even or odd numbered and calculate the according median
+	if (n % 2 != 0) {
+		Timer::start();
+		median = median::sortedMedian(arr, medianIndex);
+		Timer::stop();
 
-	Timer::start();
-	std::cout << "Median ist " << median::torben(arr, n) << std::endl;
-	Timer::stop();
+		Timer::start();
+		median::randomizedSelect(arr, 0, arr.size() - 1, medianIndex + 1);
+		Timer::stop();
 
-	Timer::start();
-	std::cout << "Median ist " << median::cppMedian(arr, medianIndex) << std::endl;
-	Timer::stop();
+		Timer::start();
+		median::torben(arr, n);
+		Timer::stop();
+
+		Timer::start();
+		median::cppMedian(arr, medianIndex);
+		Timer::stop();
+	}
+	else {
+		Timer::start();
+		(median::sortedMedian(arr, medianIndex) + median::sortedMedian(arr, medianIndex - 1)) / 2;
+		Timer::stop();
+
+		Timer::start();
+		(median::randomizedSelect(arr, 0, arr.size() - 1, medianIndex + 1) + median::randomizedSelect(arr, 0, arr.size() - 1, medianIndex)) / 2;
+		Timer::stop();
+
+		Timer::start();
+		median::torben(arr, n);
+		Timer::stop();
+
+		Timer::start();
+		(median::cppMedian(arr, medianIndex) + median::cppMedian(arr, medianIndex - 1)) / 2;
+		Timer::stop();
+	}
+
+	std::getchar();
+	return 0;
 }
